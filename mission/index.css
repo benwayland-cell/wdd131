@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+}
+
+
+/* Whole page */
+main {
+    display: flex;
+    flex-direction: column;
+    
+    width: 50%;
+    margin: auto;
+    margin-top: 100px;
+    padding: 50px;
+
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 1px;
+}
+
+
+/* Headers */
+h1, h2 {
+    text-align: center;
+}
+
+h1 {
+    color: 20pt;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #1a7cbe;
+    font-weight: 1;
+    font-size: 8pt;
+}
+
+.divider {
+    width: 100%;
+    height: 0.5px;
+    background-color: lightgray;
+    margin-top: 5px;
+    margin-bottom: 30px;
+}
+
+/* text */
+p {
+    margin-bottom: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* bottom logo */
+img {
+    width: 100px;
+    margin: auto;
+}
