@@ -13,15 +13,28 @@ header, main, footer {
   background-color: lightblue;
 }
 
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
 h1 {
     text-align: center;
 }
 
 section {
-  padding: 20px;
-  background-color: white;
-  margin: 1em;
-  border: 1px solid #ccc;
+    padding: 20px;
+    background-color: white;
+    margin: 1em;
+    border: 1px solid #ccc;
+}
+
+/* Navigation */
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    
 }
 
 nav a {
@@ -48,7 +61,31 @@ nav a:hover {
     margin: 5px 0;
 }
 
+/* Footer */
+
 footer {
-    text-align: center;
+    text-align: left;
 }
-          
+
+
+/* Media Queries */
+
+@media screen and (min-width: 700px) {
+    main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .menu-btn {
+        display: none;
+    }
+    
+    nav a {
+        display: grid;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    main {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
