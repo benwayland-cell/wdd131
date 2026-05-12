@@ -6,47 +6,89 @@ body {
   padding: 0;
   font-family: Roboto, sans-serif;
 }
-header,
-main,
-footer {
+
+header, main, footer {
   max-width: 1000px;
   margin: 1rem auto;
   border: 1px solid #ccc;
   padding: 1rem;
   background-color: lightblue;
 }
+
 h1 {
     text-align: center;
 }
+
 section {
   padding: 20px;
   background-color: white;
   margin: 1em;
   border: 1px solid #ccc;
 }
+
+/********** Header **********/
+
+/***** Navigation *****/
+
 nav a {
     padding: 20px;
     color: black;
     display: none;
 }
+
 nav a:hover {
     text-decoration: none;
     color: #616061;
 }
+
 .menu-btn {
     cursor: pointer;
     border: none;
     background-color: transparent;
 }
+
 .bar1, .bar2, .bar3 {
+    transition: transform 0.5s ease-in-out,
+                    opacity 0.5s ease-in-out;
     width: 30px;
     height: 4px;
     background-color: black;
     margin: 5px 0;
 }
+
+/********** Footer **********/
+
 footer {
     text-align: center;
 }
+
+/********** Show Code **********/
+
+.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.show a {
+    display: block;
+    border-top: 1px solid gray;
+    text-align: center;
+}
+
+/********** Animation code **********/
+
+.change .bar1 {
+  transform: translate(0, 10px) rotate(-45deg);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  transform: translate(0, -10px) rotate(45deg);
+}
+
+/********** Media Queries **********/
+
 @media screen and (min-width: 700px) {
     main {
         display: grid;
