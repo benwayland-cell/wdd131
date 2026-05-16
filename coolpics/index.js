@@ -14,8 +14,6 @@ function openModal(event) {
     let fullSizeSrc = givenSrc.replace("-sm.", "-full.");
     modalImage.src = fullSizeSrc;
     modal.showModal();
-
-    console.log(document.getElementsByClassName("viewer"));
 }
 // Close modal on button click
 closeButton.addEventListener('click', () => {
