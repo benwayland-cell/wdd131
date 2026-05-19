@@ -5,12 +5,16 @@ body {
     padding: 0;
     line-height: 1.6;
 }
+
 header, footer {
     background-color: #222;
     color: white;
     padding: 1rem;
     text-align: center;
 }
+
+/* Navigation */
+
 .main-nav {
     list-style: none;
     padding: 0;
@@ -22,6 +26,9 @@ header, footer {
     color: #ffc107;
     text-decoration: none;
 }
+
+/* Main */
+
 #movie-list {
     padding: 0 2rem;
 }
