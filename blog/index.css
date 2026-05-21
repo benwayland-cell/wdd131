@@ -1,0 +1,79 @@
+
+:root {
+  --book-header-color: #AC0E33;
+  --accent-color: #F0CEA7;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    color: var(--book-header-color);
+}
+
+
+/******************** Header ********************/
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: end;
+    padding: 20px;
+
+    border-top: solid 2px var(--accent-color);
+    border-bottom: solid 2px var(--accent-color);
+}
+
+nav ul li {
+    width: 80px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--book-header-color);
+    text-align: center;
+}
+
+/******************** Main ********************/
+
+main {
+    border-top: solid 2px var(--accent-color);
+}
+
+.book {
+    margin: 30px;
+}
+
+/* Book Info */
+.book-info p  {
+    text-align: right;
+}
+
+/* Book Main */
+.book-main {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.book-main img {
+    margin: auto;
+}
+
+/******************** Footer ********************/
+
+footer {
+    border-top: solid 2px var(--accent-color);
+    text-align: center;
+}
