@@ -59,7 +59,24 @@ header, footer {
 }
 
 @media (min-width: 600px) {
-    
+    .main-nav {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+    }
 
+    .movie {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .movie p {
+        grid-column: 2/-1;
+    }
+
+    .movie img {
+        grid-column: 1/2;
+        grid-row: 1/6;
+    }
 }
           
