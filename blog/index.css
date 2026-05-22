@@ -55,12 +55,10 @@ main {
     margin: 30px;
 }
 
-/* Book Info */
 .book-info p  {
     text-align: right;
 }
 
-/* Book Main */
 .book-main {
     display: flex;
     flex-direction: column;
@@ -76,4 +74,27 @@ main {
 footer {
     border-top: solid 2px var(--accent-color);
     text-align: center;
+    margin-top: auto;
+}
+
+/******************** Media Query ********************/
+
+@media (min-width: 600px) {
+    main {
+        border-top: none;
+    }
+
+    .book {
+        display: grid;
+        grid-template-columns: 30% 70%;
+    }
+
+    .book-info {
+        padding-right: 30px;
+        border-right: solid 2px var(--accent-color);
+    }
+
+    .book-main {
+        padding-left: 30px;
+    }
 }
