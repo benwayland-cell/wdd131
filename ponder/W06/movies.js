@@ -41,11 +41,24 @@ const movies = [
         genre: "Historical/Religious",
         stars: "⭐⭐⭐⭐"
       }
-    ];
+];
+
+let movieListHTML = "";
 
 movies.forEach(movie => {
-
-    // Code for going through each movie and creating content for that movie
-
+    movieListHTML += `
+        <article class="movie">
+            <h2>${movie.title}</h2>
+            <img src="${movie.imgSrc}" alt="${movie.imgAlt}">
+            <p><strong>Release Date:</strong> ${movie.date}</p>
+            <p><strong>Recommended Age:</strong> ${movie.ages}</p>
+            <p><strong>Genre:</strong> ${movie.genre}</p>
+            <p><strong>Rating:</strong> <span>${movie.stars}</span></p>
+            <p id='desc'>${movie.description}</p>
+        </article>
+    `;
 });
+
+const movieListElement = document.getElementById("movie-list");
+movieListElement.innerHTML = movieListHTML;
           
