@@ -43,10 +43,8 @@ const movies = [
       }
 ];
 
-let movieListHTML = "";
-
 movies.forEach(movie => {
-    movieListHTML += `
+    const movieHTML = `
         <article class="movie">
             <h2>${movie.title}</h2>
             <img src="${movie.imgSrc}" alt="${movie.imgAlt}">
@@ -57,8 +55,7 @@ movies.forEach(movie => {
             <p id='desc'>${movie.description}</p>
         </article>
     `;
-});
 
-const movieListElement = document.getElementById("movie-list");
-movieListElement.innerHTML = movieListHTML;
-          
+    const movieListElement = document.getElementById("movie-list");
+    movieListElement.innerHTML += movieHTML;
+});
