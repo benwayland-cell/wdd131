@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W07 Prove: Event Ticket</title>
+    <link rel="stylesheet" href="index.css" />
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <main>
+        <h1>Event Ticket</h1>
+        <form id="eventForm">
+            <div class="field">
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" id="firstName" required>
+            </div>
+            <div class="field">
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" id="lastName" required>
+            </div>
+            <div class="field full">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="field">
+                <label for="type">Type</label>
+                <select name="type" id="type" aria-controls="codeContainer" required>
+                    <option value="">Choose one</option>
+                    <option value="student">Student</option>
+                    <option value="guest">Guest</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="eventDate">Event Date</label>
+                <input type="date" name="eventDate" id="eventDate" required>
+            </div>
+            <div id="codeContainer" class="field full" hidden>
+                <label for="code">Student I#</label>
+                <input type="text" name="code" id="code" required>
+            </div>
+
+            <button class="full" type="submit">Create Ticket</button>
+        </form>
+        <section id="output" aria-live="polite"></section>
+    </main>
+</body>
+</html>
