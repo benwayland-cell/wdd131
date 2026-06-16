@@ -16,8 +16,44 @@ img {
 
 .main-nav {
     list-style-type: none;
+    display: flex;
+    gap: 20px;
+    justify-content: end;
 }
 
 hr{
     margin-top: 50px;
+}
+
+.gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.media-card {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+
+@media screen and (min-width: 700px) {
+    /* .gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    } */
+
+    .gallery {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .media-card {
+        flex-direction: row;
+    }
+
+    .gallery .media-card {
+        width: 48%;
+    }
 }
