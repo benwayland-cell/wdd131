@@ -1,0 +1,118 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+body {
+    margin: 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2 {
+    font-family: "Amatic SC";
+}
+
+/******************** Header ********************/
+
+header {
+    display: flex;
+    align-self: center;
+
+}
+
+header img {
+    height: 100px;
+}
+
+header h1 {
+    font-size: 40pt;
+}
+
+.divider {
+    background-color: lightgray;
+    height: 1px;
+    width: 100%;
+}
+
+/******************** Main ********************/
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/********** Search **********/
+
+#search {
+    border: solid 2px black;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1px 30px;
+    height: 40px;
+}
+
+#search input {
+    border-radius: inherit;
+    border: none;
+    background-color: transparent;
+}
+
+#search .divider {
+    height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#search button {
+    border: none;
+    background-color: transparent;
+}
+
+#search img {
+    height: 20px;
+}
+
+/********** Recipe **********/
+
+.recipe {
+    border: solid 2px black;
+    border-radius: 10px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recipe h2 {
+    color: blue;
+}
+
+.recipe button {
+    height: 30px;
+}
+
+.rating .icon-star-empty {
+    font-size: 15pt;
+}
+
+
+/******************** Footer ********************/
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/********** Social **********/
+
+.social {
+    display: flex;
+    gap: 5px;
+}
+
+.social img {
+    width: 30px;
+}
