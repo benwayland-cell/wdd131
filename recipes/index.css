@@ -47,7 +47,7 @@ main {
     border: solid 2px black;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: 1fr 1px 30px;
+    grid-template-columns: 1fr 1px 50px;
     height: 40px;
 }
 
@@ -69,7 +69,11 @@ main {
 }
 
 #search img {
-    height: 20px;
+    height: 30px;
+}
+
+.desc {
+    display: none;
 }
 
 /********** Recipe **********/
@@ -115,4 +119,30 @@ footer {
 
 .social img {
     width: 30px;
+}
+
+/******************** Media Query ********************/
+
+@media screen and (min-width: 700px) {
+
+    /********** Recipe **********/
+
+    .recipe {
+        flex-direction: row;
+    }
+
+    .recipe img {
+        width: 50%;
+    }
+
+    .desc {
+        display: block;
+    }
+
+    /********** Footer **********/
+
+    footer {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
 }
