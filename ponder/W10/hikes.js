@@ -72,6 +72,32 @@ const hikes = [
   }
 ];
 
+const searchInput = document.getElementById("search");
+const searchButton = document.getElementById("search-button");
+
+searchButton.addEventListener("click", event => {
+  const userInput = searchInput.value.toLowerCase();
+
+  // Filter for hikes that have the userInput in it
+  const filteredHikes = hikes.filter(hike => {
+    const hikeName = hike.name.toLowerCase();
+    const hikeDescription = hike.description.toLowerCase();
+
+    return (hikeName.includes(userInput) || 
+            hikeDescription.includes(userInput)
+    );
+  });
+
+  filteredHikes.sort((a, b) => {
+    return a.difficulty - b.difficulty;
+  });
+});
+
+
+
+/* Messing around on Tuesday */
+
+/*
 const people = [
     {
         name: "James",
@@ -117,3 +143,4 @@ function sortByObject(a, b) {
 people.sort(sortPeopleByName);
 console.log("People:", people);
 console.log("Debug:", debug);
+*/
