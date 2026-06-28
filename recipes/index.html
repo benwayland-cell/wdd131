@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>W09 Prove: Recipe Book</title>
     <link rel="stylesheet" href="index.css">
+    <script src="index.js" defer></script>
     
     <!-- Open Graph (Facebook, LinkedIn, etc.) -->
     <meta property="og:type" content="website">
@@ -40,27 +41,7 @@
 
         <div class="divider"></div>
 
-        <section class="recipe">
-            <img src="images/apple-crisp.jpg">
-            <div>
-                <button>dessert</button>
-                <h2>Apple Crisp</h2>
-                <span
-                class="rating"
-                role="img"
-                aria-label="Rating: 4 out of 5 stars"
-                >
-                    <span aria-hidden="true" class="icon-star">⭐</span>
-                    <span aria-hidden="true" class="icon-star">⭐</span>
-                    <span aria-hidden="true" class="icon-star">⭐</span>
-                    <span aria-hidden="true" class="icon-star">⭐</span>
-                    <span aria-hidden="true" class="icon-star-empty">☆</span>
-                </span>
-                <p class="desc">
-                    This apple crisp recipe is a simple yet delicious fall dessert that's great served with vanilla ice cream.
-                </p>
-            </div>
-        </section>
+        <section id="recipes"></section>
         
         <footer>
             <div class="social">
