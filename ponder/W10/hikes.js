@@ -73,9 +73,75 @@ const hikes = [
 ];
 
 const searchInput = document.getElementById("search");
-const searchButton = document.getElementById("search-button");
+const hikeContainer = document.getElementById("hike-container");
 
-searchButton.addEventListener("click", event => {
+/*
+    Templates
+*/
+
+function tagTemplate(tags) {
+    return tags.map((tag)=> `<button>${tag}</button>`).join(' ');
+}
+
+function difficultyTemplate(rating) {
+		let html = `<span
+	class="rating"
+	role="img"
+	aria-label="Rating: ${rating} out of 5"
+>  Difficulty: `
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        html += `<span aria-hidden="true" class="icon-boot"> 🥾</span>`
+      } else {
+        html += `<span aria-hidden="true" class="icon-empty">▫️</span>`
+      }			
+    }
+    html += `</span>`
+    return html
+}
+
+function hikesTemplate(hike) {
+    return `<div class="hike-card">
+  <div class="hike-content">
+    <h2>${hike.name}</h2>
+    <div class="hike-tags">
+      ${tagTemplate(hike.tags)}
+    </div>
+    <p>${hike.description}</p>
+    <p>${difficultyTemplate(hike.difficulty)}</p>
+  </div>
+</div>`
+}
+
+/*
+    Rendering
+*/
+function renderHikes(hikes) {
+  hikeContainer.innerHTML = "";
+
+  hikes.forEach(hike => {
+    hikeContainer.innerHTML += hikesTemplate(hike);
+  });
+}
+
+
+/*
+    Handle events that start the search
+*/
+document.getElementById("search-button").addEventListener("click", search);
+
+function handleEnter(event) {
+  if (event.key === 'Enter') {
+    search();
+  }
+}
+searchInput.addEventListener('keypress', handleEnter);
+
+
+/*
+    Search
+*/
+function search(event) {
   const userInput = searchInput.value.toLowerCase();
 
   // Filter for hikes that have the userInput in it
@@ -91,11 +157,21 @@ searchButton.addEventListener("click", event => {
   filteredHikes.sort((a, b) => {
     return a.difficulty - b.difficulty;
   });
-});
+
+  renderHikes(filteredHikes);
+}
+
+/*
+  Initialization
+*/
+function init() {
+  let randomNum = Math.floor(Math.random() * hikes.length);
+  renderHikes([hikes[randomNum]]);
+}
+init();
 
 
-
-/* Messing around on Tuesday */
+// Messing around on Tuesday 
 
 /*
 const people = [
