@@ -1,4 +1,35 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Huninn&display=swap');
+
+:root {
+  /* change the values below to your colors from your palette */
+  --primary-color: #392B58;
+  --secondary-color: #645E9D;
+  --accent1-color: #99d5c9;
+  --accent2-color: white;
+
+  /* change the values below to your chosen font(s) */
+  --heading-font: "Bagel Fat One", sans-serif;
+  --paragraph-font: Huninn, sans-serif;
+
+  /* these colors below should be chosen from among your palette colors above */
+  --headline-color-on-white: var(
+    --primary-color
+  ); /* headlines on a white background */
+  --headline-color-on-color: white; /* headlines on a colored background */
+  --paragraph-color-on-white: var(
+    --primary-color
+  ); /* paragraph text on a white background */
+  --paragraph-color-on-color: white; /* paragraph text on a colored background */
+  --paragraph-background-color: var(--primary-color);
+}
+
+h1 {
+  font-family: var(--heading-font);
+  color: var(--headline-color-on-white);
+  text-align: center;
+  font-size: 50pt;
+}
 
 #board {
     margin: auto;
@@ -15,6 +46,8 @@
 }
 
 #board div {
+    font-family: var(--paragraph-font);
+
     border: 2px black solid;
     /* width: 100%;
     height: 100%; */
