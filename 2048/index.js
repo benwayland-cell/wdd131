@@ -1,4 +1,10 @@
 "use strict";
+const ROW_INDEX = 0;
+const COL_INDEX = 1;
+const UP_VECTOR = [-1, 0];
+const DOWN_VECTOR = [1, 0];
+const LEFT_VECTOR = [0, -1];
+const RIGHT_VECTOR = [0, 1];
 // Elements
 const boardElement = document.getElementById("board");
 /**
@@ -14,6 +20,8 @@ let board = [
 ];
 function init() {
     document.addEventListener("keydown", handleInput);
+    setBoardValueGivenCor([0, 0], 2);
+    setBoardValueGivenCor([0, 3], 4);
     renderBoard();
 }
 /**
@@ -52,38 +60,118 @@ function handleInput(event) {
     switch (event.key) {
         case "ArrowUp":
         case "w":
-            moveBoard([-1, 0]);
+            moveBoard(UP_VECTOR);
             break;
         case "ArrowDown":
         case "s":
-            moveBoard([1, 0]);
+            moveBoard(DOWN_VECTOR);
             break;
         case "ArrowLeft":
         case "a":
-            moveBoard([0, -1]);
+            moveBoard(LEFT_VECTOR);
             break;
         case "ArrowRight":
         case "d":
-            moveBoard([0, 1]);
+            moveBoard(RIGHT_VECTOR);
             break;
     }
 }
 /**
  * Moves all pieces on the board in the direction of moveVector.
- * @param moveVector The direction to move the pieces on the board. Format: (row, column) (Vector as in direction not list).
+ * @param moveVector The direction to move the pieces on the board. Format: (row, column)
  */
 function moveBoard(moveVector) {
     // If moveVector is invalid, throw an error
-    if (!((moveVector[0] == -1 || moveVector[0] == 0 || moveVector[0] == 1) && // the first is -1, 0, or 1
-        (moveVector[1] == -1 || moveVector[1] == 0 || moveVector[1] == 1) && // the second is -1, 0, or 1
-        ((moveVector[0] == 0 && moveVector[1] != 0) || (moveVector[1] == 0 && moveVector[0] != 0)) // one is zero and not the other
+    if (!((moveVector[ROW_INDEX] == -1 || moveVector[ROW_INDEX] == 0 || moveVector[ROW_INDEX] == 1) && // the first is -1, 0, or 1
+        (moveVector[COL_INDEX] == -1 || moveVector[COL_INDEX] == 0 || moveVector[COL_INDEX] == 1) && // the second is -1, 0, or 1
+        ((moveVector[ROW_INDEX] == 0 && moveVector[COL_INDEX] != 0) || (moveVector[COL_INDEX] == 0 && moveVector[ROW_INDEX] != 0)) // one is zero and not the other
     )) {
         throw new Error(`Tried to use moveBoard, but moveVector was invalid. moveVector: [${moveVector}]`);
     }
     // How we will move through the board
     const wrapVector = getWrapVector(moveVector);
     const parseVector = reverseVector(moveVector);
-    let currentSpace = getStartCor(moveVector);
+    let currentSpaceCor = getStartCor(moveVector);
+    // Go through every space on the board
+    // End if we leave the board even when we wrap
+    while (corIsOnBoard(currentSpaceCor)) {
+        const currentValue = getBoardValueGivenCor(currentSpaceCor);
+        let parsingCor = addVectors(currentSpaceCor, moveVector);
+        while (corIsOnBoard(parsingCor) && currentValue != 0) {
+            const parsingCorValue = getBoardValueGivenCor(parsingCor);
+            const newSpaceIsEmpty = parsingCorValue == 0;
+            const newSpaceIsSame = parsingCorValue == currentValue;
+            // if we can move to that location
+            if (newSpaceIsEmpty || newSpaceIsSame) {
+                // Reset the previous space
+                setBoardValueGivenCor(addVectors(parsingCor, reverseVector(moveVector)), 0);
+                // Add together the previous value and the new one
+                setBoardValueGivenCor(parsingCor, currentValue + parsingCorValue);
+            }
+            else {
+                break;
+            }
+            if (newSpaceIsSame) {
+                break;
+            }
+            // Move to the next parsing coordinate
+            parsingCor = addVectors(parsingCor, moveVector);
+        }
+        // Go to next space
+        currentSpaceCor = addVectors(currentSpaceCor, parseVector);
+        // if we need to wrap
+        if (!corIsOnBoard(currentSpaceCor)) {
+            currentSpaceCor = addVectors(currentSpaceCor, wrapVector);
+        }
+    }
+    renderBoard();
+}
+/**
+ * Changes a space given a coordinate and what to change it to.
+ * @param cor The coordinate of what will be changed
+ * @param newValue The value that that space will be changed to
+ */
+function setBoardValueGivenCor(cor, newValue) {
+    if (!corIsOnBoard(cor)) {
+        throw new Error(`setBoardValueGivenCor was ran with an invalid cor. cor: ${cor}`);
+    }
+    if (Number.isNaN(newValue)) {
+        throw new Error("setBoardValueGivenCor was given a newValue of NaN");
+    }
+    board[cor[ROW_INDEX]][cor[COL_INDEX]] = newValue;
+}
+/**
+ * Gets the value of a space given a coordinate
+ * @param cor The coordinate it will check for
+ * @returns The value at that coordinate
+ */
+function getBoardValueGivenCor(cor) {
+    if (!corIsOnBoard(cor)) {
+        throw new Error(`getBoardValueGivenCor was given a cor that is off the board. cor: ${cor}`);
+    }
+    return board[cor[ROW_INDEX]][cor[COL_INDEX]];
+}
+function corIsOnBoard(cor) {
+    return (0 <= cor[ROW_INDEX] && cor[ROW_INDEX] < board.length &&
+        0 <= cor[COL_INDEX] && cor[COL_INDEX] < board[0].length);
+}
+/**
+ * Adds two vectors together.
+ * @param vector1 The first vector
+ * @param vector2 The second vector
+ * @returns The sum of the vectors
+ */
+function addVectors(vector1, vector2) {
+    return [vector1[ROW_INDEX] + vector2[ROW_INDEX], vector1[COL_INDEX] + vector2[COL_INDEX]];
+}
+/**
+ * Checks if two vectors are equal
+ * @param vector1 The first vector
+ * @param vector2 The second vector
+ * @returns If the two vectors are equal
+ */
+function vectorsAreEqual(vector1, vector2) {
+    return (vector1[ROW_INDEX] == vector2[ROW_INDEX] && vector1[COL_INDEX] == vector2[COL_INDEX]);
 }
 /**
  * Gets the opposite of a vector
@@ -95,30 +183,40 @@ function reverseVector(vector) {
 }
 /**
  * Gets the coordinate that the moveBoard function starts at.
- * @param moveVector The direction to move the pieces on the board. Format: (row, column) (Vector as in direction not list).
+ * @param moveVector The direction to move the pieces on the board. Format: (row, column)
  * @returns The coordinate that the moveBoard function starts at.
  */
 function getStartCor(moveVector) {
-    if (moveVector[0] == -1 || moveVector[1] == -1) {
+    if (vectorsAreEqual(moveVector, UP_VECTOR) || vectorsAreEqual(moveVector, LEFT_VECTOR)) {
         return [0, 0];
     }
+    else if (vectorsAreEqual(moveVector, DOWN_VECTOR) || vectorsAreEqual(moveVector, RIGHT_VECTOR)) {
+        return [board.length - 1, board[0].length - 1];
+    }
     else {
-        return [board.length - 1, 0];
+        throw new Error(`getStartCor was given an invalid vector. Vector: ${moveVector}`);
     }
 }
 /**
  * Gets the vector used by moveBoard to wrap around the board
- * @param moveVector The direction to move the pieces on the board. Format: (row, column) (Vector as in direction not list).
+ * @param moveVector The direction to move the pieces on the board. Format: (row, column)
  * @returns The vector used by moveBoard to wrap around the board
  */
 function getWrapVector(moveVector) {
-    let wrapVector = [1, 1];
-    if (moveVector[0] != 0) {
-        wrapVector[0] = board.length;
+    if (vectorsAreEqual(moveVector, UP_VECTOR)) {
+        return [-board.length, 1];
     }
-    else if (moveVector[1] != 0) {
-        wrapVector[1] = board[0].length;
+    else if (vectorsAreEqual(moveVector, DOWN_VECTOR)) {
+        return [board.length, -1];
     }
-    return wrapVector;
+    else if (vectorsAreEqual(moveVector, LEFT_VECTOR)) {
+        return [1, -board[0].length];
+    }
+    else if (vectorsAreEqual(moveVector, RIGHT_VECTOR)) {
+        return [-1, board[0].length];
+    }
+    else {
+        throw new Error(`getWrapVector was given an invalid vector. Vector: ${moveVector}`);
+    }
 }
 init();
