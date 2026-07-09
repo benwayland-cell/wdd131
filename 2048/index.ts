@@ -111,16 +111,7 @@ function handleInput(event: KeyboardEvent): void {
  */
 function randomFillBoard(): void {
     // Get the coordinates of all empty spaces
-    let emptySpaces: Vector[] = [];
-
-    for (let row = 0; row < board.length; row++) {
-        for (let col = 0; col < board[row].length; col++) {
-            let currentSpace: Vector = [row, col];
-            if (getBoardValueGivenCor(currentSpace) == 0) {
-                emptySpaces.push(currentSpace);
-            }
-        }
-    }
+    const emptySpaces: Vector[] = getEmptySpaces();
 
     // Do nothing if there is no empty space
     if (emptySpaces.length == 0) {
@@ -138,6 +129,76 @@ function randomFillBoard(): void {
 
     // Fill the randomly selected space
     setBoardValueGivenCor(randomSpace, newRandomValue);
+}
+
+
+/**
+ * Gets the empty spaces on the board
+ * @returns A list of empty spaces on board
+ */
+function getEmptySpaces(): Vector[] {
+    let emptySpaces: Vector[] = [];
+
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            let currentSpace: Vector = [row, col];
+            if (getBoardValueGivenCor(currentSpace) == 0) {
+                emptySpaces.push(currentSpace);
+            }
+        }
+    }
+    return emptySpaces;
+}
+
+
+/**
+ * Checks if the player has lost the game.
+ * @returns If the player has lost the game.
+ */
+function lostGame(): boolean {
+    if (getEmptySpaces().length != 0) {
+        return false;
+    }
+
+    /**
+     * Checks if you can move that space
+     * @param spaceCor The coordinate to check
+     * @returns If that space can be moved
+     */
+    function spaceCanMove(spaceCor: Vector): boolean {
+        const spaceCorValue: number = getBoardValueGivenCor(spaceCor);
+
+        // If the space is 0, it can move
+        if (spaceCorValue == 0) {
+            return true;
+        }
+
+        let canMove: boolean = false;
+        
+        // Check if the space can be moved in each direction
+        const directionsToCheck: Vector[] = [UP_VECTOR, DOWN_VECTOR, LEFT_VECTOR, RIGHT_VECTOR];
+        directionsToCheck.forEach((direction: Vector) => {
+            const checkingCor: Vector = addVectors(spaceCor, direction);
+            if (corIsOnBoard(checkingCor)) {
+                const checkingCorValue: number = getBoardValueGivenCor(checkingCor);
+                if (checkingCorValue == spaceCorValue || checkingCorValue == 0) {
+                    canMove = true;
+                }
+            }
+        });
+
+        return canMove;
+    }
+
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            if (spaceCanMove([row, col])) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 
@@ -208,6 +269,7 @@ function moveBoard(moveVector: Vector): void {
     }
 
     renderBoard();
+    console.log("Lost Game:", lostGame());
 }
 
 
