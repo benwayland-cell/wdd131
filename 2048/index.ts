@@ -17,8 +17,9 @@ const RIGHT_VECTOR: Vector = [0, 1]
 
 
 // Elements
-const boardElement: HTMLElement | null = document.getElementById("board");
-const newGameButton: HTMLElement | null = document.getElementById("newGameButton");
+let boardElement: HTMLElement;
+let newGameButton: HTMLElement;
+let scoreElement: HTMLElement;
 
 
 /**
@@ -39,23 +40,48 @@ const DEFAULT_BOARD: number[][] = [
  */
 let board: number[][];
 
+/**
+ * The player's score.
+ */
+let score: number;
+
 
 function init(): void {
-    document.addEventListener("keydown", handleInput);
-    if (newGameButton) newGameButton.addEventListener("click", resetBoard);
-
+    initElements();
+    initEventListeners();
     resetBoard();
 }
+
+
+/**
+ * Inits the HTML elements
+ */
+function initElements(): void {
+    let potentialBoardElement: HTMLElement | null = document.getElementById("board");
+    if (potentialBoardElement) {boardElement = potentialBoardElement;}
+    else {throw new Error(`"board" does not exist.`)}
+    
+    let potentialNewGameButton: HTMLElement | null = document.getElementById("newGameButton");
+    if (potentialNewGameButton) {newGameButton = potentialNewGameButton;}
+    else {throw new Error(`"newGameButton" does not exist.`)}
+    
+    let potentialScoreElement: HTMLElement | null = document.getElementById("score");
+    if (potentialScoreElement) {scoreElement = potentialScoreElement;}
+    else {throw new Error(`"score" does not exist.`)}
+}
+
+
+function initEventListeners(): void {
+    document.addEventListener("keydown", handleInput);
+    newGameButton.addEventListener("click", resetBoard);
+}
+
 
 
 /**
  * Renders the board onto the website
  */
 function renderBoard(): void {
-    if (boardElement == null) {
-        return;
-    }
-
     /**
      * Makes the HTML for the space given its value. 0 will not display.
      * @param value The number the space has
@@ -118,8 +144,20 @@ function resetBoard(): void {
     board = structuredClone(DEFAULT_BOARD);
     randomFillBoard();
     randomFillBoard();
+    setScore(0);
     renderBoard();
 }
+
+
+function addScore(pointsToAdd: number): void {
+    setScore(score + pointsToAdd);
+}
+
+function setScore(newScore: number): void {
+    score = newScore;
+    scoreElement.innerHTML = `Score: ${score}`;
+}
+
 
 
 /**

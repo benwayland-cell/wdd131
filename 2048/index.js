@@ -6,8 +6,9 @@ const DOWN_VECTOR = [1, 0];
 const LEFT_VECTOR = [0, -1];
 const RIGHT_VECTOR = [0, 1];
 // Elements
-const boardElement = document.getElementById("board");
-const newGameButton = document.getElementById("newGameButton");
+let boardElement;
+let newGameButton;
+let scoreElement;
 /**
  * What the board is by default
  */
@@ -23,19 +24,49 @@ const DEFAULT_BOARD = [
  * The first index relates to the row (y) and the second relates to the column (x).
  */
 let board;
+/**
+ * The player's score.
+ */
+let score;
 function init() {
-    document.addEventListener("keydown", handleInput);
-    if (newGameButton)
-        newGameButton.addEventListener("click", resetBoard);
+    initElements();
+    initEventListeners();
     resetBoard();
+}
+/**
+ * Inits the HTML elements
+ */
+function initElements() {
+    let potentialBoardElement = document.getElementById("board");
+    if (potentialBoardElement) {
+        boardElement = potentialBoardElement;
+    }
+    else {
+        throw new Error(`"board" does not exist.`);
+    }
+    let potentialNewGameButton = document.getElementById("newGameButton");
+    if (potentialNewGameButton) {
+        newGameButton = potentialNewGameButton;
+    }
+    else {
+        throw new Error(`"newGameButton" does not exist.`);
+    }
+    let potentialScoreElement = document.getElementById("score");
+    if (potentialScoreElement) {
+        scoreElement = potentialScoreElement;
+    }
+    else {
+        throw new Error(`"score" does not exist.`);
+    }
+}
+function initEventListeners() {
+    document.addEventListener("keydown", handleInput);
+    newGameButton.addEventListener("click", resetBoard);
 }
 /**
  * Renders the board onto the website
  */
 function renderBoard() {
-    if (boardElement == null) {
-        return;
-    }
     /**
      * Makes the HTML for the space given its value. 0 will not display.
      * @param value The number the space has
@@ -88,7 +119,15 @@ function resetBoard() {
     board = structuredClone(DEFAULT_BOARD);
     randomFillBoard();
     randomFillBoard();
+    setScore(0);
     renderBoard();
+}
+function addScore(pointsToAdd) {
+    setScore(score + pointsToAdd);
+}
+function setScore(newScore) {
+    score = newScore;
+    scoreElement.innerHTML = `Score: ${score}`;
 }
 /**
  * Fills the board with random 2s or 4s
