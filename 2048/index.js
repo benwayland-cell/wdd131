@@ -80,14 +80,45 @@ function moveBoard(moveVector) {
     )) {
         throw new Error(`Tried to use moveBoard, but moveVector was invalid. moveVector: [${moveVector}]`);
     }
-    console.log(moveVector);
+    // How we will move through the board
     const wrapVector = getWrapVector(moveVector);
+    const parseVector = reverseVector(moveVector);
+    let currentSpace = getStartCor(moveVector);
 }
 /**
- * Gets what number will be needed to use to wrap the movement to a new place
- * @param moveVector The direction to move the pieces on the board. (Vector as in direction not list).
+ * Gets the opposite of a vector
+ * @param vector A vector that will be reversed
+ * @returns The reversed vector
+ */
+function reverseVector(vector) {
+    return [vector[0] * -1, vector[1] * -1];
+}
+/**
+ * Gets the coordinate that the moveBoard function starts at.
+ * @param moveVector The direction to move the pieces on the board. Format: (row, column) (Vector as in direction not list).
+ * @returns The coordinate that the moveBoard function starts at.
+ */
+function getStartCor(moveVector) {
+    if (moveVector[0] == -1 || moveVector[1] == -1) {
+        return [0, 0];
+    }
+    else {
+        return [board.length - 1, 0];
+    }
+}
+/**
+ * Gets the vector used by moveBoard to wrap around the board
+ * @param moveVector The direction to move the pieces on the board. Format: (row, column) (Vector as in direction not list).
+ * @returns The vector used by moveBoard to wrap around the board
  */
 function getWrapVector(moveVector) {
-    return [0, 0];
+    let wrapVector = [1, 1];
+    if (moveVector[0] != 0) {
+        wrapVector[0] = board.length;
+    }
+    else if (moveVector[1] != 0) {
+        wrapVector[1] = board[0].length;
+    }
+    return wrapVector;
 }
 init();
