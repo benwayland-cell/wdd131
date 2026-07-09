@@ -65,24 +65,52 @@ function handleInput(event: KeyboardEvent): void {
     switch (event.key) {
         case "ArrowUp":
         case "w":
-            console.log("up");
+            moveBoard([-1, 0]);
             break;
         
         case "ArrowDown":
         case "s":
-            console.log("down");
+            moveBoard([1, 0]);
             break;
         
         case "ArrowLeft":
         case "a":
-            console.log("left");
+            moveBoard([0, -1]);
             break;
         
         case "ArrowRight":
         case "d":
-            console.log("right");
+            moveBoard([0, 1]);
             break;
     }
+}
+
+
+/**
+ * Moves all pieces on the board in the direction of moveVector.
+ * @param moveVector The direction to move the pieces on the board. Format: (row, column) (Vector as in direction not list).
+ */
+function moveBoard(moveVector: [number, number]): void {
+    // If moveVector is invalid, throw an error
+    if (!(
+        (moveVector[0] == -1 || moveVector[0] == 0 || moveVector[0] == 1) && // the first is -1, 0, or 1
+        (moveVector[1] == -1 || moveVector[1] == 0 || moveVector[1] == 1) && // the second is -1, 0, or 1
+        ((moveVector[0] == 0 && moveVector[1] != 0) || (moveVector[1] == 0 && moveVector[0] != 0)) // one is zero and not the other
+    )) {
+        throw new Error(`Tried to use moveBoard, but moveVector was invalid. moveVector: [${moveVector}]`);
+    }
+    console.log(moveVector);
+
+    const wrapVector: [number, number] = getWrapVector(moveVector);
+}
+
+
+/**
+ * Gets what number will be needed to use to wrap the movement to a new place
+ * @param moveVector The direction to move the pieces on the board. (Vector as in direction not list).
+ */
+function getWrapVector(moveVector: [number, number]): [number, number] {
+    return [0, 0];
 }
 
 
