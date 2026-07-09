@@ -36,8 +36,8 @@ let board: number[][] = [
 function init(): void {
     document.addEventListener("keydown", handleInput);
 
-    setBoardValueGivenCor([0, 0], 2);
-    setBoardValueGivenCor([0, 3], 4);
+    randomFillBoard();
+    randomFillBoard();
 
     renderBoard();
 }
@@ -107,6 +107,41 @@ function handleInput(event: KeyboardEvent): void {
 
 
 /**
+ * Fills the board with random 2s or 4s
+ */
+function randomFillBoard(): void {
+    // Get the coordinates of all empty spaces
+    let emptySpaces: Vector[] = [];
+
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            let currentSpace: Vector = [row, col];
+            if (getBoardValueGivenCor(currentSpace) == 0) {
+                emptySpaces.push(currentSpace);
+            }
+        }
+    }
+
+    // Do nothing if there is no empty space
+    if (emptySpaces.length == 0) {
+        return;
+    }
+
+    // Get a random space
+    const randomSpace: Vector = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
+
+    // Get a random value
+    let newRandomValue: number = 2;
+    if (Math.random() < 0.1) {
+        newRandomValue = 4;
+    }
+
+    // Fill the randomly selected space
+    setBoardValueGivenCor(randomSpace, newRandomValue);
+}
+
+
+/**
  * Moves all pieces on the board in the direction of moveVector.
  * @param moveVector The direction to move the pieces on the board. Format: (row, column)
  */
@@ -126,6 +161,7 @@ function moveBoard(moveVector: Vector): void {
     const parseVector: Vector = reverseVector(moveVector);
 
     let currentSpaceCor: Vector = getStartCor(moveVector);
+    let movedAPiece: boolean = false;
 
     // Go through every space on the board
     // End if we leave the board even when we wrap
@@ -145,6 +181,7 @@ function moveBoard(moveVector: Vector): void {
                 setBoardValueGivenCor(addVectors(parsingCor, reverseVector(moveVector)), 0);
                 // Add together the previous value and the new one
                 setBoardValueGivenCor(parsingCor, currentValue + parsingCorValue);
+                movedAPiece = true;
             }
             else {
                 break;
@@ -164,6 +201,10 @@ function moveBoard(moveVector: Vector): void {
         if (!corIsOnBoard(currentSpaceCor)) {
             currentSpaceCor = addVectors(currentSpaceCor, wrapVector);
         }
+    }
+
+    if (movedAPiece) {
+        randomFillBoard();
     }
 
     renderBoard();
