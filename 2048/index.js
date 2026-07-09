@@ -7,22 +7,27 @@ const LEFT_VECTOR = [0, -1];
 const RIGHT_VECTOR = [0, 1];
 // Elements
 const boardElement = document.getElementById("board");
+const newGameButton = document.getElementById("newGameButton");
 /**
- * The board.
- *
- * The first index relates to the row (y) and the second relates to the column (x).
+ * What the board is by default
  */
-let board = [
+const DEFAULT_BOARD = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0]
 ];
+/**
+ * The board.
+ *
+ * The first index relates to the row (y) and the second relates to the column (x).
+ */
+let board;
 function init() {
     document.addEventListener("keydown", handleInput);
-    randomFillBoard();
-    randomFillBoard();
-    renderBoard();
+    if (newGameButton)
+        newGameButton.addEventListener("click", resetBoard);
+    resetBoard();
 }
 /**
  * Renders the board onto the website
@@ -75,6 +80,15 @@ function handleInput(event) {
             moveBoard(RIGHT_VECTOR);
             break;
     }
+}
+/**
+ * Resets the board
+ */
+function resetBoard() {
+    board = structuredClone(DEFAULT_BOARD);
+    randomFillBoard();
+    randomFillBoard();
+    renderBoard();
 }
 /**
  * Fills the board with random 2s or 4s

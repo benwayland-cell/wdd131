@@ -18,14 +18,13 @@ const RIGHT_VECTOR: Vector = [0, 1]
 
 // Elements
 const boardElement: HTMLElement | null = document.getElementById("board");
+const newGameButton: HTMLElement | null = document.getElementById("newGameButton");
 
 
 /**
- * The board.
- * 
- * The first index relates to the row (y) and the second relates to the column (x).
+ * What the board is by default
  */
-let board: number[][] = [
+const DEFAULT_BOARD: number[][] = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
@@ -33,13 +32,19 @@ let board: number[][] = [
 ];
 
 
+/**
+ * The board.
+ * 
+ * The first index relates to the row (y) and the second relates to the column (x).
+ */
+let board: number[][];
+
+
 function init(): void {
     document.addEventListener("keydown", handleInput);
+    if (newGameButton) newGameButton.addEventListener("click", resetBoard);
 
-    randomFillBoard();
-    randomFillBoard();
-
-    renderBoard();
+    resetBoard();
 }
 
 
@@ -103,6 +108,17 @@ function handleInput(event: KeyboardEvent): void {
             moveBoard(RIGHT_VECTOR);
             break;
     }
+}
+
+
+/**
+ * Resets the board
+ */
+function resetBoard(): void {
+    board = structuredClone(DEFAULT_BOARD);
+    randomFillBoard();
+    randomFillBoard();
+    renderBoard();
 }
 
 
