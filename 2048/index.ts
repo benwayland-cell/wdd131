@@ -149,10 +149,19 @@ function resetBoard(): void {
 }
 
 
+/**
+ * Adds to the score (also renders it).
+ * @param pointsToAdd The points to add to the score
+ */
 function addScore(pointsToAdd: number): void {
     setScore(score + pointsToAdd);
 }
 
+
+/**
+ * Sets the score to a constant (also renders it).
+ * @param newScore The points to set score to
+ */
 function setScore(newScore: number): void {
     score = newScore;
     scoreElement.innerHTML = `Score: ${score}`;
@@ -281,33 +290,12 @@ function moveBoard(moveVector: Vector): void {
     // Go through every space on the board
     // End if we leave the board even when we wrap
     while (corIsOnBoard(currentSpaceCor)) {
-        const currentValue: number = getBoardValueGivenCor(currentSpaceCor);
+        // Move the space
+        const movedThisPiece = moveSpaceOnBoard(currentSpaceCor, moveVector);
 
-        let parsingCor: Vector = addVectors(currentSpaceCor, moveVector);
-        
-        while (corIsOnBoard(parsingCor) && currentValue != 0) {
-            const parsingCorValue = getBoardValueGivenCor(parsingCor);
-            const newSpaceIsEmpty = parsingCorValue == 0;
-            const newSpaceIsSame = parsingCorValue == currentValue;
-
-            // if we can move to that location
-            if (newSpaceIsEmpty || newSpaceIsSame) {
-                // Reset the previous space
-                setBoardValueGivenCor(addVectors(parsingCor, reverseVector(moveVector)), 0);
-                // Add together the previous value and the new one
-                setBoardValueGivenCor(parsingCor, currentValue + parsingCorValue);
-                movedAPiece = true;
-            }
-            else {
-                break;
-            }
-
-            if (newSpaceIsSame) {
-                break;
-            }
-
-            // Move to the next parsing coordinate
-            parsingCor = addVectors(parsingCor, moveVector);
+        // Update moved a piece
+        if (!movedAPiece) {
+            movedAPiece = movedThisPiece;
         }
 
         // Go to next space
@@ -324,6 +312,54 @@ function moveBoard(moveVector: Vector): void {
 
     renderBoard();
     console.log("Lost Game:", lostGame());
+}
+
+
+function moveSpaceOnBoard(spaceToMove: Vector, moveVector: Vector): boolean {
+    let movedAPiece = false
+    const currentValue: number = getBoardValueGivenCor(spaceToMove);
+
+    let parsingCor: Vector = addVectors(spaceToMove, moveVector);
+
+    function moveSpace(from: Vector, to: Vector): void {
+        const fromValue: number = getBoardValueGivenCor(from);
+        const toValue: number = getBoardValueGivenCor(to);
+
+        setBoardValueGivenCor(from, 0);
+        setBoardValueGivenCor(to, fromValue + toValue);
+    }
+    
+    while (corIsOnBoard(parsingCor) && currentValue != 0) {
+        const parsingCorValue = getBoardValueGivenCor(parsingCor);
+        const parsingCorIsEmpty = parsingCorValue == 0;
+        const parsingCorIsSame = parsingCorValue == currentValue;
+
+        // if parsingCor is empty
+        // if (parsingCorValue == 0) {
+
+        // }
+
+        // if we can move to that location
+        if (parsingCorIsEmpty || parsingCorIsSame) {
+            moveSpace(spaceToMove, parsingCor);
+            spaceToMove = addVectors(spaceToMove, moveVector);
+            
+            movedAPiece = true;
+        }
+        else {
+            break;
+        }
+
+        if (parsingCorIsSame) {
+            addScore(getBoardValueGivenCor(spaceToMove));
+            break;
+        }
+
+        // Move to the next parsing coordinate
+        parsingCor = addVectors(parsingCor, moveVector);
+    }
+
+    return movedAPiece;
 }
 
 
