@@ -311,7 +311,10 @@ function moveBoard(moveVector: Vector): void {
     }
 
     renderBoard();
-    console.log("Lost Game:", lostGame());
+
+    if (lostGame()) {
+        console.log("Lost Game");
+    }
 }
 
 
@@ -333,11 +336,6 @@ function moveSpaceOnBoard(spaceToMove: Vector, moveVector: Vector): boolean {
         const parsingCorValue = getBoardValueGivenCor(parsingCor);
         const parsingCorIsEmpty = parsingCorValue == 0;
         const parsingCorIsSame = parsingCorValue == currentValue;
-
-        // if parsingCor is empty
-        // if (parsingCorValue == 0) {
-
-        // }
 
         // if we can move to that location
         if (parsingCorIsEmpty || parsingCorIsSame) {
