@@ -14,6 +14,9 @@ const DOWN_VECTOR: Vector = [1, 0]
 const LEFT_VECTOR: Vector = [0, -1]
 const RIGHT_VECTOR: Vector = [0, 1]
 
+// the highest a number can go before going to the default color
+const MAX_NUMBER_COLOR: number = 2;
+
 
 
 // Elements
@@ -92,7 +95,12 @@ function renderBoard(): void {
             return `<div></div>`
         }
 
-        return `<div>${value}</div>`; 
+        let color: string = String(value);
+        if (value > MAX_NUMBER_COLOR) {
+            color = "default-number-color";
+        }
+
+        return `<div style="background-color: var(--${color})">${value}</div>`; 
     }
 
     // Clear the boardElement

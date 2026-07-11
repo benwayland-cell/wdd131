@@ -5,6 +5,8 @@ const UP_VECTOR = [-1, 0];
 const DOWN_VECTOR = [1, 0];
 const LEFT_VECTOR = [0, -1];
 const RIGHT_VECTOR = [0, 1];
+// the highest a number can go before going to the default color
+const MAX_NUMBER_COLOR = 2;
 // Elements
 let boardElement;
 let newGameButton;
@@ -76,7 +78,11 @@ function renderBoard() {
         if (value == 0) {
             return `<div></div>`;
         }
-        return `<div>${value}</div>`;
+        let color = String(value);
+        if (value > MAX_NUMBER_COLOR) {
+            color = "default-number-color";
+        }
+        return `<div style="background-color: var(--${color})">${value}</div>`;
     }
     // Clear the boardElement
     boardElement.innerHTML = "";

@@ -22,6 +22,10 @@
   ); /* paragraph text on a white background */
   --paragraph-color-on-color: white; /* paragraph text on a colored background */
   --paragraph-background-color: var(--primary-color);
+
+  /* The colors for all of the numbers */
+  --default-number-color: blue;
+  --2: red;
 }
 
 h1 {
