@@ -14,9 +14,9 @@ const DOWN_VECTOR: Vector = [1, 0]
 const LEFT_VECTOR: Vector = [0, -1]
 const RIGHT_VECTOR: Vector = [0, 1]
 
+
 // the highest a number can go before going to the default color
 const MAX_NUMBER_COLOR: number = 2;
-
 
 
 // Elements
@@ -48,11 +48,23 @@ let board: number[][];
  */
 let score: number;
 
+/**
+ * Whether the player has won the game yet
+ */
+let wonGame: boolean = false;
 
+
+/**
+ * Function run when first booting up page
+ */
 function init(): void {
     initElements();
     initEventListeners();
     resetBoard();
+
+    // board[0][0] = 1024;
+    // board[0][1] = 1024;
+    // renderBoard();
 }
 
 
@@ -154,6 +166,7 @@ function resetBoard(): void {
     randomFillBoard();
     setScore(0);
     renderBoard();
+    wonGame = false;
 }
 
 
@@ -274,6 +287,23 @@ function lostGame(): boolean {
 
 
 /**
+ * Checks if the player has won.
+ * @returns If there is a 2048 tile on the board
+ */
+function hasWonGame(): boolean {
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            if (getBoardValueGivenCor([row, col]) == 2048) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+/**
  * Moves all pieces on the board in the direction of moveVector.
  * @param moveVector The direction to move the pieces on the board. Format: (row, column)
  */
@@ -322,6 +352,13 @@ function moveBoard(moveVector: Vector): void {
 
     if (lostGame()) {
         console.log("Lost Game");
+    }
+
+    if (!wonGame) {
+        if (hasWonGame()) {
+            wonGame = true;
+            console.log("Won Game");
+        }
     }
 }
 

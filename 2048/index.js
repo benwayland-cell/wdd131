@@ -30,10 +30,20 @@ let board;
  * The player's score.
  */
 let score;
+/**
+ * Whether the player has won the game yet
+ */
+let wonGame = false;
+/**
+ * Function run when first booting up page
+ */
 function init() {
     initElements();
     initEventListeners();
     resetBoard();
+    // board[0][0] = 1024;
+    // board[0][1] = 1024;
+    // renderBoard();
 }
 /**
  * Inits the HTML elements
@@ -127,6 +137,7 @@ function resetBoard() {
     randomFillBoard();
     setScore(0);
     renderBoard();
+    wonGame = false;
 }
 /**
  * Adds to the score (also renders it).
@@ -222,6 +233,20 @@ function lostGame() {
     return true;
 }
 /**
+ * Checks if the player has won.
+ * @returns If there is a 2048 tile on the board
+ */
+function hasWonGame() {
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            if (getBoardValueGivenCor([row, col]) == 2048) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+/**
  * Moves all pieces on the board in the direction of moveVector.
  * @param moveVector The direction to move the pieces on the board. Format: (row, column)
  */
@@ -260,6 +285,12 @@ function moveBoard(moveVector) {
     renderBoard();
     if (lostGame()) {
         console.log("Lost Game");
+    }
+    if (!wonGame) {
+        if (hasWonGame()) {
+            wonGame = true;
+            console.log("Won Game");
+        }
     }
 }
 function moveSpaceOnBoard(spaceToMove, moveVector) {
