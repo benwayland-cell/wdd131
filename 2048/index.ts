@@ -15,8 +15,10 @@ const LEFT_VECTOR: Vector = [0, -1]
 const RIGHT_VECTOR: Vector = [0, 1]
 
 
-// the highest a number can go before going to the default color
-const MAX_NUMBER_COLOR: number = 2;
+/**
+ * The last number tile that has black font
+ */
+const LAST_BLACK_NUMBER: number = 64;
 
 
 // Elements
@@ -37,6 +39,13 @@ const DEFAULT_BOARD: number[][] = [
     [0, 0, 0, 0],
     [0, 0, 0, 0]
 ];
+
+// const DEFAULT_BOARD: number[][] = [
+//     [2, 4, 8, 16],
+//     [32, 64, 128, 256],
+//     [512, 1024, 2048, 4096],
+//     [8192, 16384, 32768, 65536]
+// ];
 
 
 /**
@@ -125,12 +134,16 @@ function renderBoard(): void {
             return `<div></div>`
         }
 
-        let color: string = String(value);
-        if (value > MAX_NUMBER_COLOR) {
-            color = "default-number-color";
+        let color: string = "black";
+
+        if (value > LAST_BLACK_NUMBER) {
+            color = "var(--paragraph-color-on-color)"
         }
 
-        return `<div style="background-color: var(--${color})">${value}</div>`; 
+        return `<div style="
+                background-color: var(--${value});
+                color: ${color};
+            ">${value}</div>`; 
     }
 
     // Clear the boardElement
