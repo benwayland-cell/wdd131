@@ -21,8 +21,10 @@ const MAX_NUMBER_COLOR: number = 2;
 
 // Elements
 let boardElement: HTMLElement;
-let newGameButton: HTMLElement;
+let newGameButtons: HTMLCollectionOf<Element>;
 let scoreElement: HTMLElement;
+let winScreen: HTMLElement;
+let continueButton: HTMLElement;
 
 
 /**
@@ -76,19 +78,30 @@ function initElements(): void {
     if (potentialBoardElement) {boardElement = potentialBoardElement;}
     else {throw new Error(`"board" does not exist.`)}
     
-    let potentialNewGameButton: HTMLElement | null = document.getElementById("newGameButton");
-    if (potentialNewGameButton) {newGameButton = potentialNewGameButton;}
-    else {throw new Error(`"newGameButton" does not exist.`)}
+    newGameButtons = document.getElementsByClassName("newGameButton");
     
     let potentialScoreElement: HTMLElement | null = document.getElementById("score");
     if (potentialScoreElement) {scoreElement = potentialScoreElement;}
     else {throw new Error(`"score" does not exist.`)}
+
+    let potentialWinScreen: HTMLElement | null = document.getElementById("winScreen");
+    if (potentialWinScreen) {winScreen = potentialWinScreen}
+    else {throw new Error(`"winScreen" does not exist.`)}
+
+    let potentialContinueButton: HTMLElement | null = document.getElementById("continueButton");
+    if (potentialContinueButton) {continueButton = potentialContinueButton}
+    else {throw new Error(`"continueButton" does not exist.`)}
 }
 
 
 function initEventListeners(): void {
     document.addEventListener("keydown", handleInput);
-    newGameButton.addEventListener("click", resetBoard);
+
+    for (let index = 0; index < newGameButtons.length; index++) {
+        newGameButtons[index].addEventListener("click", resetBoard);
+    }
+
+    continueButton.addEventListener("click", hideWinScreen);
 }
 
 
@@ -166,6 +179,7 @@ function resetBoard(): void {
     randomFillBoard();
     setScore(0);
     renderBoard();
+    hideWinScreen();
     wonGame = false;
 }
 
@@ -357,7 +371,7 @@ function moveBoard(moveVector: Vector): void {
     if (!wonGame) {
         if (hasWonGame()) {
             wonGame = true;
-            console.log("Won Game");
+            showWinScreen();
         }
     }
 }
@@ -403,6 +417,20 @@ function moveSpaceOnBoard(spaceToMove: Vector, moveVector: Vector): boolean {
     }
 
     return movedAPiece;
+}
+
+/**
+ * Displays the win screen
+ */
+function showWinScreen() {
+    winScreen.style.display = "flex";
+}
+
+/**
+ * Hides the win screen
+ */
+function hideWinScreen() {
+    winScreen.style.display = "none";
 }
 
 

@@ -35,6 +35,8 @@ h1 {
   font-size: 50pt;
 }
 
+/******************** Board *********************/
+
 #board {
     margin: auto;
     border: 2px blue solid;
@@ -69,4 +71,29 @@ h1 {
 
     /* grid-row: 2;
     grid-column: 2; */
+}
+
+/******************** Win Screen *********************/
+
+#winScreen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  justify-content: center;
+  align-items: center;
+}
+
+#winScreen section {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: black 5px solid;
+  padding: 10px;
+  gap: 10px;
 }
