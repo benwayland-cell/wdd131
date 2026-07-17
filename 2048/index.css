@@ -26,13 +26,48 @@
   /* The colors for all of the numbers */
   --default-number-color: blue;
   --2: red;
+
+
+  /* The board's max width */
+  --board-max-width: 500px;
 }
 
-h1 {
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+h1, h2 {
   font-family: var(--heading-font);
   color: var(--headline-color-on-white);
   text-align: center;
   font-size: 50pt;
+  padding: 0;
+  margin: 0;
+}
+
+p, button {
+  font-family: var(--paragraph-font);
+  color: var(--paragraph-color-on-white);
+  font-size: 16pt;
+}
+
+button {
+  border-radius: 1em;
+  padding: 0.5em;
+  width: fit-content;
+}
+
+/******************** UI *********************/
+
+#UI {
+  max-width: var(--board-max-width);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 /******************** Board *********************/
@@ -41,7 +76,7 @@ h1 {
     margin: auto;
     border: 2px blue solid;
     width: 80%;
-    max-width: 500px;
+    max-width: var(--board-max-width);
     aspect-ratio: 1/1;
 
     display: grid;
@@ -93,6 +128,9 @@ h1 {
 #winScreen section, #lossScreen section {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
   background-color: white;
   border: black 5px solid;
   padding: 10px;
