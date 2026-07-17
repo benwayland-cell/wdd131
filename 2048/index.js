@@ -13,6 +13,7 @@ let newGameButtons;
 let scoreElement;
 let winScreen;
 let continueButton;
+let lossScreen;
 /**
  * What the board is by default
  */
@@ -79,6 +80,13 @@ function initElements() {
     }
     else {
         throw new Error(`"continueButton" does not exist.`);
+    }
+    let potentialLossScreen = document.getElementById("lossScreen");
+    if (potentialLossScreen) {
+        lossScreen = potentialLossScreen;
+    }
+    else {
+        throw new Error(`"lossScreen" does not exist.`);
     }
 }
 function initEventListeners() {
@@ -151,6 +159,7 @@ function resetBoard() {
     setScore(0);
     renderBoard();
     hideWinScreen();
+    hideLossScreen();
     wonGame = false;
 }
 /**
@@ -298,7 +307,7 @@ function moveBoard(moveVector) {
     }
     renderBoard();
     if (lostGame()) {
-        console.log("Lost Game");
+        showLossScreen();
     }
     if (!wonGame) {
         if (hasWonGame()) {
@@ -350,6 +359,18 @@ function showWinScreen() {
  */
 function hideWinScreen() {
     winScreen.style.display = "none";
+}
+/**
+ * Displays the loss screen
+ */
+function showLossScreen() {
+    lossScreen.style.display = "flex";
+}
+/**
+ * Hides the loss screen
+ */
+function hideLossScreen() {
+    lossScreen.style.display = "none";
 }
 /**
  * Changes a space given a coordinate and what to change it to.

@@ -25,6 +25,7 @@ let newGameButtons: HTMLCollectionOf<Element>;
 let scoreElement: HTMLElement;
 let winScreen: HTMLElement;
 let continueButton: HTMLElement;
+let lossScreen: HTMLElement;
 
 
 /**
@@ -91,6 +92,10 @@ function initElements(): void {
     let potentialContinueButton: HTMLElement | null = document.getElementById("continueButton");
     if (potentialContinueButton) {continueButton = potentialContinueButton}
     else {throw new Error(`"continueButton" does not exist.`)}
+
+    let potentialLossScreen: HTMLElement | null = document.getElementById("lossScreen"); 
+    if (potentialLossScreen) {lossScreen = potentialLossScreen}
+    else {throw new Error(`"lossScreen" does not exist.`)}
 }
 
 
@@ -180,6 +185,7 @@ function resetBoard(): void {
     setScore(0);
     renderBoard();
     hideWinScreen();
+    hideLossScreen();
     wonGame = false;
 }
 
@@ -365,7 +371,7 @@ function moveBoard(moveVector: Vector): void {
     renderBoard();
 
     if (lostGame()) {
-        console.log("Lost Game");
+        showLossScreen();
     }
 
     if (!wonGame) {
@@ -431,6 +437,22 @@ function showWinScreen() {
  */
 function hideWinScreen() {
     winScreen.style.display = "none";
+}
+
+
+/**
+ * Displays the loss screen
+ */
+function showLossScreen() {
+    lossScreen.style.display = "flex";
+}
+
+
+/**
+ * Hides the loss screen
+ */
+function hideLossScreen() {
+    lossScreen.style.display = "none";
 }
 
 
