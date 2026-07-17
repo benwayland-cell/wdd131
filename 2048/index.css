@@ -68,6 +68,7 @@ h1 {
   padding: 0.5em;
   max-width: var(--board-max-width);
   width: 100%;
+  border-radius: 1em;
 }
 
 p, button {
@@ -97,6 +98,7 @@ button {
 #board {
     margin: auto;
     border: 2px var(--primary-color) solid;
+    border-radius: 1em;
     width: 80%;
     max-width: var(--board-max-width);
     aspect-ratio: 1/1;
@@ -111,6 +113,7 @@ button {
 #board div {
     font-family: var(--paragraph-font);
     border: 2px black solid;
+    border-radius: 1em;
 
     text-align: center;
     display: flex;
